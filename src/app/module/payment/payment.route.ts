@@ -13,6 +13,10 @@ router.post(
 	PaymentController.initiatePayment,
 );
 
+// bkash callback webhook route (get and post supported by bkash)
+router.get("/bkash/callback", PaymentController.handleBkashCallback);
+router.post("/bkash/callback", PaymentController.handleBkashCallback);
+
 // verify payment route
 router.post(
 	"/verify/:transactionId",

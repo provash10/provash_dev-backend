@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import httpStatus from "http-status";
+import config from "../../config";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { PaymentService } from "./payment.service";
@@ -17,6 +18,23 @@ const initiatePayment = catchAsync(async (req: Request, res: Response) => {
 		message: "Payment initiated successfully",
 		data: result,
 	});
+});
+
+// handle bkash payment callback controller
+const handleBkashCallback = catchAsync(async (req: Request, res: Response) => {
+	// console.log("bkash callback controller invoked", req.query)
+
+	const result = await PaymentService.handleBkashCallback(req.query);
+
+	if (result.success) {
+		res.redirect(
+			`${config.frontend_url}/payment/success?invoice=${result.invoice}`,
+		);
+	} else {
+		res.redirect(
+			`${config.frontend_url}/payment/failed?message=${encodeURIComponent(result.message || "Failed")}`,
+		);
+	}
 });
 
 // verify payment controller
@@ -82,6 +100,7 @@ const getPaymentByTransactionId = catchAsync(
 
 export const PaymentController = {
 	initiatePayment,
+	handleBkashCallback,
 	verifyPayment,
 	getAllPayments,
 	getMyPayments,

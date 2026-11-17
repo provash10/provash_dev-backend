@@ -23,6 +23,33 @@ const config = {
 	super_admin_email: process.env.SUPER_ADMIN_EMAIL || "admin@provash.dev",
 	super_admin_password:
 		process.env.SUPER_ADMIN_PASSWORD || "Admin@provash123",
+
+	// redis credentials
+	redis_user: process.env.REDIS_USER || "default",
+	redis_password: process.env.REDIS_PASSWORD || "",
+	redis_host: process.env.REDIS_HOST || "",
+	redis_port: process.env.REDIS_PORT ? Number(process.env.REDIS_PORT) : 6379,
+
+	// email smtp credentials
+	smtp_user: process.env.SMTP_USER || "",
+	smtp_password: process.env.SMTP_PASSWORD || "",
+	email_sender: process.env.EMAIL_SENDER || "",
+
+	// cloudinary media credentials
+	cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "",
+	cloudinary_api_key: process.env.CLOUDINARY_API_KEY || "",
+	cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET || "",
+
+	// bkash payment gateway credentials
+	bkash_base_url:
+		process.env.BKASH_BASE_URL || "https://tokenized.sandbox.bka.sh/v1.2.0-beta",
+	bkash_username: process.env.BKASH_USERNAME || "",
+	bkash_password: process.env.BKASH_PASSWORD || "",
+	bkash_app_key: process.env.BKASH_APP_KEY || "",
+	bkash_app_secret: process.env.BKASH_APP_SECRET || "",
+	bkash_callback_url:
+		process.env.BKASH_CALLBACK_URL ||
+		"http://localhost:5000/api/v1/payments/bkash/callback",
 };
 
 export default config;
