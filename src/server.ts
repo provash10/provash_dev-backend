@@ -10,32 +10,27 @@ const PORT = config.port || 5000;
 // start server main function
 const main = async () => {
 	try {
-		// connect to postgresql database
+		// connect to database
 		await prisma.$connect();
 		// console.log("database connected successfully via prisma")
 
-		// connect to redis cloud client
-		try {
-			await redisClient.connect();
-			// console.log("redis cloud connected successfully")
-		} catch (_redisError) {
-			// console.log("redis connection error ignored", _redisError)
-		}
-
-		// verify nodemailer smtp configuration
-		try {
-			await transporter.verify();
-			// console.log("nodemailer smtp connected successfully")
-		} catch (_mailError) {
-			// console.log("nodemailer verification notice", _mailError)
-		}
-
-		// seed initial super admin user
+		// seed super admin user
 		await seedSuperAdmin();
 
+		// start express http server
 		app.listen(PORT, () => {
 			// console.log("provash agency backend api running on port")
 			// console.log("server running successfully")
+		});
+
+		// connect to redis cloud client in background
+		redisClient.connect().catch((_redisErr) => {
+			// console.log("redis cloud connection notice", _redisErr)
+		});
+
+		// verify nodemailer smtp configuration in background
+		transporter.verify().catch((_mailErr) => {
+			// console.log("nodemailer smtp verification notice", _mailErr)
 		});
 	} catch (error) {
 		// console.log("failed to start the server", error)
