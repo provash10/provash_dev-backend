@@ -5,19 +5,20 @@ import { seedSuperAdmin } from "./app/utils/seed";
 
 const PORT = config.port || 5000;
 
+// start server main function
 const main = async () => {
 	try {
 		await prisma.$connect();
-		console.log("Database connected successfully via Prisma.");
+		// console.log("database connected successfully via prisma")
 
 		await seedSuperAdmin();
 
 		app.listen(PORT, () => {
-			console.log(`Provash Agency Backend API running on port ${PORT}`);
-			console.log(`URL: http://localhost:${PORT}`);
+			// console.log("provash agency backend api running on port")
+			// console.log("server running successfully")
 		});
 	} catch (error) {
-		console.error("Failed to start the server:", error);
+		// console.log("failed to start the server", error)
 		await prisma.$disconnect();
 		process.exit(1);
 	}
