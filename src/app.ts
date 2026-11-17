@@ -7,6 +7,7 @@ import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import { AuthRoutes } from "./app/module/auth/auth.route";
 import { InquiryRoutes } from "./app/module/inquiry/inquiry.route";
+import { PaymentRoutes } from "./app/module/payment/payment.route";
 import { PortfolioRoutes } from "./app/module/portfolio/portfolio.route";
 import { ServiceRoutes } from "./app/module/service/service.route";
 import { TestimonialRoutes } from "./app/module/testimonial/testimonial.route";
@@ -34,6 +35,7 @@ app.use("/api/v1/services", ServiceRoutes);
 app.use("/api/v1/portfolio", PortfolioRoutes);
 app.use("/api/v1/inquiries", InquiryRoutes);
 app.use("/api/v1/testimonials", TestimonialRoutes);
+app.use("/api/v1/payments", PaymentRoutes);
 
 // Health check endpoint
 app.get("/", (_req: Request, res: Response) => {

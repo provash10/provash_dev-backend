@@ -34,6 +34,20 @@ enum InquiryStatus {
   CANCELLED
 }
 
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentGateway {
+  BKASH
+  SSLCOMMERZ
+  STRIPE
+  MANUAL
+}
+
 model User {
   id        String     @id @default(uuid())
   name      String
@@ -47,6 +61,7 @@ model User {
   updatedAt DateTime   @updatedAt
 
   inquiries Inquiry[]
+  payments  Payment[]
 
   @@map("users")
 }
@@ -111,6 +126,27 @@ model Inquiry {
   updatedAt DateTime      @updatedAt
 
   @@map("inquiries")
+}
+
+model Payment {
+  id             String         @id @default(uuid())
+  transactionId  String         @unique
+  paymentGateway PaymentGateway @default(BKASH)
+  amount         Decimal        @db.Decimal(10, 2)
+  currency       String         @default("BDT")
+  status         PaymentStatus  @default(PENDING)
+  serviceTitle   String
+  clientName     String
+  clientEmail    String
+  clientPhone    String?
+  paymentUrl     String?
+  invoiceNumber  String?
+  userId         String?
+  user           User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@map("payments")
 }
 
 model Testimonial {
