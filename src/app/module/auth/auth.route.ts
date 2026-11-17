@@ -13,6 +13,12 @@ router.post(
 	AuthController.login,
 );
 
+// google oauth login route
+router.post(
+	"/google-login",
+	AuthController.googleLogin,
+);
+
 // register route
 router.post(
 	"/register",

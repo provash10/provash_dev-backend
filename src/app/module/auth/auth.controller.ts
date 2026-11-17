@@ -4,6 +4,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { AuthService } from "./auth.service";
 
+// credentials login controller
 const login = catchAsync(async (req: Request, res: Response) => {
 	const result = await AuthService.login(req.body);
 
@@ -29,6 +30,33 @@ const login = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
+// google oauth login controller
+const googleLogin = catchAsync(async (req: Request, res: Response) => {
+	const result = await AuthService.googleLogin(req.body.idToken);
+
+	res.cookie("refreshToken", result.refreshToken, {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
+		sameSite: "lax",
+		maxAge: 7 * 24 * 60 * 60 * 1000,
+	});
+
+	res.cookie("accessToken", result.accessToken, {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
+		sameSite: "lax",
+		maxAge: 24 * 60 * 60 * 1000,
+	});
+
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Google login successful",
+		data: result,
+	});
+});
+
+// user registration controller
 const register = catchAsync(async (req: Request, res: Response) => {
 	const result = await AuthService.register(req.body);
 
@@ -40,6 +68,7 @@ const register = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
+// refresh token controller
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
 	const token = req.cookies?.refreshToken || req.body?.refreshToken;
 	const result = await AuthService.refreshToken(token);
@@ -59,6 +88,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
+// logout controller
 const logout = catchAsync(async (_req: Request, res: Response) => {
 	res.clearCookie("accessToken");
 	res.clearCookie("refreshToken");
@@ -71,6 +101,7 @@ const logout = catchAsync(async (_req: Request, res: Response) => {
 	});
 });
 
+// get me controller
 const getMe = catchAsync(async (req: Request, res: Response) => {
 	const result = await AuthService.getMe(req.user?.userId as string);
 
@@ -84,9 +115,9 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
 
 export const AuthController = {
 	login,
+	googleLogin,
 	register,
 	refreshToken,
 	logout,
 	getMe,
 };
-

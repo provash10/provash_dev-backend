@@ -24,6 +24,9 @@ const config = {
 	super_admin_password:
 		process.env.SUPER_ADMIN_PASSWORD || "Admin@provash123",
 
+	// google oauth client id
+	google_client_id: process.env.GOOGLE_CLIENT_ID || "",
+
 	// redis credentials
 	redis_user: process.env.REDIS_USER || "default",
 	redis_password: process.env.REDIS_PASSWORD || "",
