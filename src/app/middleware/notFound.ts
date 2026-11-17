@@ -8,3 +8,4 @@ export const notFound = (req: Request, res: Response, _next: NextFunction) => {
 		message: `Route not found: ${req.method} ${req.originalUrl}`,
 	});
 };
+

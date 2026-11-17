@@ -89,3 +89,4 @@ export const AuthController = {
 	logout,
 	getMe,
 };
+

@@ -19,3 +19,4 @@ export interface IRequestUser {
 	name: string;
 	role: "SUPER_ADMIN" | "ADMIN" | "CLIENT";
 }
+

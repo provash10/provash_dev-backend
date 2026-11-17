@@ -1,0 +1,131 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  CLIENT
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+}
+
+enum ServiceCategory {
+  WEB_DEVELOPMENT
+  YOUTUBE_AUTOMATION
+  SOCIAL_MEDIA_MARKETING
+  SEO_OPTIMIZATION
+  STRATEGY_CONSULTING
+}
+
+enum InquiryStatus {
+  PENDING
+  IN_PROGRESS
+  CONTACTED
+  RESOLVED
+  CANCELLED
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  role      Role       @default(CLIENT)
+  status    UserStatus @default(ACTIVE)
+  phone     String?
+  avatar    String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  inquiries Inquiry[]
+
+  @@map("users")
+}
+
+model Service {
+  id            String          @id @default(uuid())
+  title         String
+  slug          String          @unique
+  category      ServiceCategory
+  shortDesc     String
+  fullDesc      String          @db.Text
+  icon          String?
+  coverImage    String?
+  features      String[]
+  startingPrice Decimal?        @db.Decimal(10, 2)
+  isFeatured    Boolean         @default(false)
+  isActive      Boolean         @default(true)
+  order         Int             @default(0)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  inquiries     Inquiry[]
+
+  @@map("services")
+}
+
+model PortfolioProject {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  description  String   @db.Text
+  category     String
+  thumbnail    String
+  gallery      String[]
+  liveUrl      String?
+  githubClient String?
+  githubServer String?
+  technologies String[]
+  featured     Boolean  @default(false)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("portfolio_projects")
+}
+
+model Inquiry {
+  id        String        @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  serviceId String?
+  service   Service?      @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  userId    String?
+  user      User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  budget    String?
+  timeline  String?
+  message   String        @db.Text
+  status    InquiryStatus @default(PENDING)
+  notes     String?       @db.Text
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("inquiries")
+}
+
+model Testimonial {
+  id           String   @id @default(uuid())
+  clientName   String
+  clientRole   String
+  clientAvatar String?
+  companyName  String?
+  rating       Int      @default(5)
+  feedback     String   @db.Text
+  serviceType  String?
+  isPublished  Boolean  @default(true)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("testimonials")
+}
