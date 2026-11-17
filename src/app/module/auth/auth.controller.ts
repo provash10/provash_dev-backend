@@ -60,6 +60,20 @@ const googleLogin = catchAsync(async (req: Request, res: Response) => {
 const register = catchAsync(async (req: Request, res: Response) => {
 	const result = await AuthService.register(req.body);
 
+	res.cookie("refreshToken", result.refreshToken, {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
+		sameSite: "lax",
+		maxAge: 7 * 24 * 60 * 60 * 1000,
+	});
+
+	res.cookie("accessToken", result.accessToken, {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
+		sameSite: "lax",
+		maxAge: 24 * 60 * 60 * 1000,
+	});
+
 	sendResponse(res, {
 		statusCode: httpStatus.CREATED,
 		success: true,
