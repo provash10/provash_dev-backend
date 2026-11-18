@@ -10,6 +10,7 @@ import { InquiryRoutes } from "./app/module/inquiry/inquiry.route";
 import { PaymentRoutes } from "./app/module/payment/payment.route";
 import { PortfolioRoutes } from "./app/module/portfolio/portfolio.route";
 import { ServiceRoutes } from "./app/module/service/service.route";
+import { SoftwareRoutes } from "./app/module/software/software.route";
 import { TestimonialRoutes } from "./app/module/testimonial/testimonial.route";
 import { UserRoutes } from "./app/module/user/user.route";
 
@@ -32,6 +33,7 @@ app.use(cookieParser());
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/users", UserRoutes);
 app.use("/api/v1/services", ServiceRoutes);
+app.use("/api/v1/software", SoftwareRoutes);
 app.use("/api/v1/portfolio", PortfolioRoutes);
 app.use("/api/v1/inquiries", InquiryRoutes);
 app.use("/api/v1/testimonials", TestimonialRoutes);
