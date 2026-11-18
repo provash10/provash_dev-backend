@@ -108,6 +108,28 @@ model PortfolioProject {
   @@map("portfolio_projects")
 }
 
+model SoftwareProduct {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  tagline      String
+  shortDesc    String
+  fullDesc     String   @db.Text
+  category     String
+  thumbnail    String?
+  liveUrl      String?
+  githubUrl    String?
+  features     String[]
+  techStack    String[]
+  status       String   @default("LIVE")
+  isFeatured   Boolean  @default(true)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("software_products")
+}
+
 model Inquiry {
   id        String        @id @default(uuid())
   name      String
