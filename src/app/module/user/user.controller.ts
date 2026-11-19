@@ -16,6 +16,30 @@ const getAllUsers = catchAsync(async (_req: Request, res: Response) => {
 	});
 });
 
+// get super admin dashboard statistics controller
+const getSuperAdminStats = catchAsync(async (_req: Request, res: Response) => {
+	// console.log("get super admin stats controller invoked")
+	const result = await UserService.getSuperAdminStats();
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Super admin statistics fetched successfully",
+		data: result,
+	});
+});
+
+// create staff user controller
+const createStaff = catchAsync(async (req: Request, res: Response) => {
+	// console.log("create staff user controller invoked")
+	const result = await UserService.createStaff(req.body);
+	sendResponse(res, {
+		statusCode: httpStatus.CREATED,
+		success: true,
+		message: "Staff account created successfully",
+		data: result,
+	});
+});
+
 // update user status controller
 const updateUserStatus = catchAsync(async (req: Request, res: Response) => {
 	// console.log("update user status controller invoked")
@@ -46,6 +70,8 @@ const updateUserRole = catchAsync(async (req: Request, res: Response) => {
 
 export const UserController = {
 	getAllUsers,
+	getSuperAdminStats,
+	createStaff,
 	updateUserStatus,
 	updateUserRole,
 };

@@ -16,7 +16,7 @@ declare global {
 	}
 }
 
-export const checkAuth = (...requiredRoles: Array<"SUPER_ADMIN" | "ADMIN" | "CLIENT">) => {
+export const checkAuth = (...requiredRoles: Array<"SUPER_ADMIN" | "ADMIN" | "PROJECT_MANAGER" | "CLIENT">) => {
 	return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 		const token = req.cookies?.accessToken
 			? req.cookies.accessToken

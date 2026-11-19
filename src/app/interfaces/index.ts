@@ -17,6 +17,6 @@ export interface IRequestUser {
 	userId: string;
 	email: string;
 	name: string;
-	role: "SUPER_ADMIN" | "ADMIN" | "CLIENT";
+	role: "SUPER_ADMIN" | "ADMIN" | "PROJECT_MANAGER" | "CLIENT";
 }
 

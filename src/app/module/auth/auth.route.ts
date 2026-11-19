@@ -41,7 +41,7 @@ router.post(
 // get current user profile route
 router.get(
 	"/me",
-	checkAuth("SUPER_ADMIN", "ADMIN", "CLIENT"),
+	checkAuth("SUPER_ADMIN", "ADMIN", "PROJECT_MANAGER", "CLIENT"),
 	AuthController.getMe,
 );
 

@@ -32,7 +32,7 @@ router.get(
 // get my payments route
 router.get(
 	"/my/history",
-	checkAuth("SUPER_ADMIN", "ADMIN", "CLIENT"),
+	checkAuth("SUPER_ADMIN", "ADMIN", "PROJECT_MANAGER", "CLIENT"),
 	PaymentController.getMyPayments,
 );
 
