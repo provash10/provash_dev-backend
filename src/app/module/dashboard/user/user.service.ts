@@ -1,8 +1,8 @@
 import bcryptjs from "bcryptjs";
 import httpStatus from "http-status";
-import config from "../../config";
-import AppError from "../../errors/AppError";
-import { prisma } from "../../lib/prisma";
+import config from "../../../config";
+import AppError from "../../../errors/AppError";
+import { prisma } from "../../../lib/prisma";
 
 // get all users service
 const getAllUsers = async () => {

@@ -11,11 +11,11 @@ import { PaymentRoutes } from "./app/module/payment/payment.route";
 import { PortfolioRoutes } from "./app/module/portfolio/portfolio.route";
 import { ServiceRoutes } from "./app/module/service/service.route";
 import { SoftwareRoutes } from "./app/module/software/software.route";
-import { SuperAdminRoutes } from "./app/module/superAdmin/superAdmin.route";
-import { AdminRoutes } from "./app/module/admin/admin.route";
-import { ProjectManagerRoutes } from "./app/module/projectManager/projectManager.route";
+import { SuperAdminRoutes } from "./app/module/dashboard/superAdmin/superAdmin.route";
+import { AdminRoutes } from "./app/module/dashboard/admin/admin.route";
+import { ProjectManagerRoutes } from "./app/module/dashboard/projectManager/projectManager.route";
 import { TestimonialRoutes } from "./app/module/testimonial/testimonial.route";
-import { UserRoutes } from "./app/module/user/user.route";
+import { UserRoutes } from "./app/module/dashboard/user/user.route";
 
 const app: Application = express();
 

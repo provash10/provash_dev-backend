@@ -1,9 +1,9 @@
 import bcryptjs from "bcryptjs";
 import httpStatus from "http-status";
-import config from "../../config";
-import AppError from "../../errors/AppError";
-import { prisma } from "../../lib/prisma";
-import { SoftwareService } from "../software/software.service";
+import config from "../../../config";
+import AppError from "../../../errors/AppError";
+import { prisma } from "../../../lib/prisma";
+import { SoftwareService } from "../../software/software.service";
 
 // super admin get system overview statistics service
 const getSuperAdminStats = async () => {

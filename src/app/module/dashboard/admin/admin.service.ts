@@ -1,5 +1,5 @@
-import { prisma } from "../../lib/prisma";
-import { SoftwareService } from "../software/software.service";
+import { prisma } from "../../../lib/prisma";
+import { SoftwareService } from "../../software/software.service";
 
 // admin overview metrics service
 const getAdminOverview = async () => {
