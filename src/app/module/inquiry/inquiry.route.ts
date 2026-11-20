@@ -6,33 +6,36 @@ import { InquiryValidation } from "./inquiry.validation";
 
 const router = Router();
 
-// Public: Clients can submit quote requests / inquiries
+// public client inquiry submission route
 router.post(
 	"/",
 	validateRequest(InquiryValidation.createInquirySchema),
 	InquiryController.createInquiry,
 );
 
-// Admin-only management
+// get all inquiries route for staff
 router.get(
 	"/",
-	checkAuth("SUPER_ADMIN", "ADMIN"),
+	checkAuth("SUPER_ADMIN", "ADMIN", "PROJECT_MANAGER"),
 	InquiryController.getAllInquiries,
 );
 
+// get inquiry by id route
 router.get(
 	"/:id",
-	checkAuth("SUPER_ADMIN", "ADMIN"),
+	checkAuth("SUPER_ADMIN", "ADMIN", "PROJECT_MANAGER"),
 	InquiryController.getInquiryById,
 );
 
+// update inquiry status route
 router.patch(
 	"/:id/status",
-	checkAuth("SUPER_ADMIN", "ADMIN"),
+	checkAuth("SUPER_ADMIN", "ADMIN", "PROJECT_MANAGER"),
 	validateRequest(InquiryValidation.updateInquiryStatusSchema),
 	InquiryController.updateInquiryStatus,
 );
 
+// delete inquiry route
 router.delete(
 	"/:id",
 	checkAuth("SUPER_ADMIN", "ADMIN"),
