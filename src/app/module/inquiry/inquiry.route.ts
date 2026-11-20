@@ -20,6 +20,13 @@ router.get(
 	InquiryController.getAllInquiries,
 );
 
+// get logged in client own inquiries route
+router.get(
+	"/my-inquiries",
+	checkAuth("CLIENT", "SUPER_ADMIN", "ADMIN", "PROJECT_MANAGER"),
+	InquiryController.getMyInquiries,
+);
+
 // get inquiry by id route
 router.get(
 	"/:id",

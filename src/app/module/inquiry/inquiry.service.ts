@@ -36,6 +36,25 @@ const getAllInquiries = async (query: { status?: any }) => {
 	});
 };
 
+// get logged in client own inquiries
+const getMyInquiries = async (userId?: string, email?: string) => {
+	const orConditions: any[] = [];
+	if (userId) orConditions.push({ userId });
+	if (email) orConditions.push({ email });
+
+	if (orConditions.length === 0) return [];
+
+	return await prisma.inquiry.findMany({
+		where: { OR: orConditions },
+		include: {
+			service: {
+				select: { id: true, title: true, category: true },
+			},
+		},
+		orderBy: { createdAt: "desc" },
+	});
+};
+
 const getInquiryById = async (id: string) => {
 	const inquiry = await prisma.inquiry.findUnique({
 		where: { id },
@@ -83,6 +102,7 @@ const deleteInquiry = async (id: string) => {
 export const InquiryService = {
 	createInquiry,
 	getAllInquiries,
+	getMyInquiries,
 	getInquiryById,
 	updateInquiryStatus,
 	deleteInquiry,

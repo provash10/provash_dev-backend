@@ -25,6 +25,19 @@ const getAllInquiries = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
+// get logged in client own inquiries controller
+const getMyInquiries = catchAsync(async (req: Request, res: Response) => {
+	const userId = req.user?.userId;
+	const email = req.user?.email;
+	const result = await InquiryService.getMyInquiries(userId, email);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Client inquiries fetched successfully",
+		data: result,
+	});
+});
+
 const getInquiryById = catchAsync(async (req: Request, res: Response) => {
 	const { id } = req.params;
 	const result = await InquiryService.getInquiryById(id);
@@ -61,6 +74,7 @@ const deleteInquiry = catchAsync(async (req: Request, res: Response) => {
 export const InquiryController = {
 	createInquiry,
 	getAllInquiries,
+	getMyInquiries,
 	getInquiryById,
 	updateInquiryStatus,
 	deleteInquiry,
