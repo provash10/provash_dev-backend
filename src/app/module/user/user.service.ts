@@ -37,7 +37,10 @@ const getSuperAdminStats = async () => {
 			prisma.service.count(),
 		]);
 
-	const totalRevenue = totalPayments.reduce((acc, curr) => acc + curr.amount, 0);
+	const totalRevenue = totalPayments.reduce(
+		(acc: number, curr: { amount: any }) => acc + Number(curr.amount || 0),
+		0,
+	);
 
 	const roleBreakdown = await prisma.user.groupBy({
 		by: ["role"],
