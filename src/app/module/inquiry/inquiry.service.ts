@@ -1,9 +1,16 @@
 import httpStatus from "http-status";
+import config from "../../config";
 import AppError from "../../errors/AppError";
+import { sendEmail } from "../../lib/nodemailer";
 import { prisma } from "../../lib/prisma";
+import {
+	generateAdminInquiryEmail,
+	generateClientWelcomeEmail,
+} from "../../templates/emailTemplates";
 
+// create inquiry and trigger email notifications service
 const createInquiry = async (payload: any, userId?: string) => {
-	return await prisma.inquiry.create({
+	const newInquiry = await prisma.inquiry.create({
 		data: {
 			...payload,
 			userId: userId || null,
@@ -14,6 +21,30 @@ const createInquiry = async (payload: any, userId?: string) => {
 			},
 		},
 	});
+
+	// asynchronously trigger email notifications without blocking client response
+	try {
+		const adminEmail = config.super_admin_email || "provashsharma10@gmail.com";
+		sendEmail({
+			to: adminEmail,
+			subject: `New Client Inquiry: ${newInquiry.name} (${newInquiry.budget || "Custom"})`,
+			html: generateAdminInquiryEmail(newInquiry),
+		}).catch((_err) => {
+			// console.log("admin email dispatch notice", _err)
+		});
+
+		sendEmail({
+			to: newInquiry.email,
+			subject: "Thank you for contacting Provash Digital Agency!",
+			html: generateClientWelcomeEmail(newInquiry.name, newInquiry.message),
+		}).catch((_err) => {
+			// console.log("client email dispatch notice", _err)
+		});
+	} catch (_err) {
+		// console.log("email service notice", _err)
+	}
+
+	return newInquiry;
 };
 
 const getAllInquiries = async (query: { status?: any }) => {
