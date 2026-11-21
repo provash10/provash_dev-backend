@@ -119,7 +119,7 @@ export const generateClientWelcomeEmail = (
 					</a>
 				</div>
 				<p style="margin: 0; font-size: 12px; color: #64748b;">
-					If you have urgent questions, connect with us directly on WhatsApp at <strong style="color: #38bdf8;">+880 1832-720448</strong>.
+					If you have urgent questions, connect with us directly on WhatsApp at <strong style="color: #38bdf8;">+880 1710-490345</strong>.
 				</p>
 			</td>
 		</tr>
