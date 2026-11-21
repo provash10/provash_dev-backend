@@ -1,0 +1,188 @@
+================================================================================
+           PROVASH DEV - BACKEND API POSTMAN TESTING COMPREHENSIVE GUIDE
+================================================================================
+Folder Location: provash_dev-backend/Docs/postman/
+Generated At: 2026-11-21
+Backend Server URL: http://localhost:5000
+API Base Endpoint: http://localhost:5000/api/v1
+Default Super Admin: admin@provash.dev / Admin@provash123
+
+================================================================================
+1. এই ফোল্ডারের ফাইলসমূহ (FILES IN THIS DIRECTORY)
+================================================================================
+1. Provash_Dev_Backend_API.postman_collection.json
+   - সম্পূর্ণ ব্যাকএন্ড REST API কালেকশন (Postman Collection v2.1.0)
+   - এতে রয়েছে Health Check, Auth, Super Admin, Admin, PM, Services, Software, 
+     Portfolio, Inquiries, Testimonials, এবং bKash Payments-এর সব রিকোয়েস্ট।
+   - লগইন রিকোয়েস্টে টেস্ট স্ক্রিপ্ট যুক্ত আছে, যা স্বয়ংক্রিয়ভাবে JWT accessToken 
+     এনভায়রনমেন্ট ভ্যারিয়েবলে সংরক্ষণ করে।
+
+2. Provash_Dev_Backend_Environment.postman_environment.json
+   - পোস্টম্যানের জন্য প্রাক-কনফিগার করা এনভায়রনমেন্ট ভ্যারিয়েবল (baseUrl, credentials, tokens)।
+
+3. backend-postman-testing-guide.txt
+   - এই বিস্তারিত নির্দেশিকা ফাইল।
+
+================================================================================
+2. পোস্টম্যানে ফাইল ইমপোর্ট করার নিয়ম (HOW TO IMPORT INTO POSTMAN)
+================================================================================
+ধাপ ১: আপনার কম্পিউটারে Postman অ্যাপটি ওপেন করুন (অথবা Postman Web ব্যবহার করুন)।
+ধাপ ২: উপরের বাম কোণে থাকা "Import" বাটনে ক্লিক করুন।
+ধাপ ৩: "Upload Files"-এ ক্লিক করে নিচের ফাইল দুটি নির্বাচন করুন:
+       a) Provash_Dev_Backend_API.postman_collection.json
+       b) Provash_Dev_Backend_Environment.postman_environment.json
+ধাপ ৪: "Import" বাটনে ক্লিক করুন। কালেকশনটি বাম পাশের 'Collections' ট্যাবে 
+       এবং এনভায়রনমেন্টটি 'Environments' ট্যাবে চলে আসবে।
+ধাপ ৫: পোস্টম্যানের উপরের ডান কোণে থাকা Environment ড্রপডাউন থেকে নির্বাচন করুন:
+       "Provash Dev - Backend Local Environment"
+
+================================================================================
+3. ব্যাকএন্ড সার্ভার চালু করা (STARTING BACKEND SERVER)
+================================================================================
+পোস্টম্যানে টেস্ট করার পূর্বে ব্যাকএন্ড সার্ভার চালু থাকতে হবে:
+
+1. টার্মিনাল ওপেন করুন provash_dev-backend ফোল্ডারে:
+   cd "c:\Projects\1. nl\provash_dev-backend"
+
+2. ডেভেলপমেন্ট সার্ভার রান করুন:
+   bun run dev
+   (অথবা npm run dev)
+
+3. টার্মিনালে দেখতে পাবেন:
+   [INFO] Server running on http://localhost:5000
+   [INFO] Database Connected via Prisma Postgres
+
+================================================================================
+4. টেস্ট করার ক্রমানুযায়ী ধাপ (STEP-BY-STEP TESTING WORKFLOW)
+================================================================================
+
+ধাপ ১: সার্ভার হেলথ চেক (Server Health Check)
+---------------------------------------------
+- কালেকশনের "00. System Health Check" ফোল্ডারে যান।
+- "Backend Server Root Health Check" ওপেন করে "Send" বাটনে চাপুন।
+- মেথড: GET
+- URL: {{baseUrl}}/
+- প্রত্যাশিত রেসপন্স (Status: 200 OK):
+  {
+    "success": true,
+    "message": "Provash Agency & Portfolio Backend API is running smoothly",
+    "timestamp": "..."
+  }
+
+ধাপ ২: সুপার অ্যাডমিন লগইন ও অটোমেটিক টোকেন সেভ (Super Admin Login)
+------------------------------------------------------------------
+- "01. Authentication Module" ফোল্ডারে যান।
+- "Super Admin Login (Auto-captures Token)" ওপেন করুন।
+- মেথড: POST
+- URL: {{baseUrl}}/api/v1/auth/login
+- Body:
+  {
+    "email": "{{superAdminEmail}}",      (admin@provash.dev)
+    "password": "{{superAdminPassword}}" (Admin@provash123)
+  }
+- "Send" বাটনে চাপুন।
+- ম্যাজিক ফিচার: এই রিকোয়েস্ট সফল হলে রেসপন্সের accessToken স্বয়ংক্রিয়ভাবে আপনার 
+  Postman Environment-এর {{accessToken}}-এ সেট হয়ে যাবে! পরবর্তী সকল প্রোটেক্টেড 
+  রিকোয়েস্টে আর ম্যানুয়ালি টোকেন কপি-পেস্ট করতে হবে না।
+
+ধাপ ৩: বর্তমান ইউজারের প্রোফাইল যাচাই (Get Current Profile)
+---------------------------------------------------------
+- "01. Authentication Module" -> "Get Current Logged-in Profile (Me)"
+- মেথড: GET
+- URL: {{baseUrl}}/api/v1/auth/me
+- Headers: Authorization: Bearer {{accessToken}} (অটোমেটিক যুক্ত)
+- "Send" চাপুন এবং দেখুন সুপার অ্যাডমিন প্রোফাইল ডেটা (role: "SUPER_ADMIN") আসে কিনা।
+
+ধাপ ৪: সুপার অ্যাডমিন ড্যাশবোর্ড ও স্টাফ ক্রিয়েশন (Super Admin Operations)
+------------------------------------------------------------------------
+- "02. Super Admin Dashboard" ফোল্ডারে যান:
+  1. "Get Super Admin Stats" (GET {{baseUrl}}/api/v1/super-admin/stats):
+     - মোট ক্লায়েন্ট, মোট প্রজেক্ট, অ্যাক্টিভ সার্ভিস ইত্যাদি স্ট্যাটাস দেখুন।
+  2. "Get All Users (Super Admin View)" (GET {{baseUrl}}/api/v1/super-admin/users):
+     - সিস্টেমের সকল রেজিস্টার্ড ইউজার তালিকা দেখুন।
+  3. "Create Staff Member" (POST {{baseUrl}}/api/v1/super-admin/create-staff):
+     - নতুন Admin বা Project Manager তৈরি করুন।
+
+ধাপ ৫: সার্ভিসেস মডিউল টেস্ট (Services CRUD)
+--------------------------------------------
+- "04. Services Management" ফোল্ডারে যান:
+  1. "Get All Public Services" (GET {{baseUrl}}/api/v1/services) -> পাবলিক ইউজাররা যা দেখে।
+  2. "Admin Create New Service" (POST {{baseUrl}}/api/v1/services) -> নতুন ওয়েব ডেভেলপমেন্ট সার্ভিস অ্যাড করুন।
+  3. "Get Single Service by Slug" (GET {{baseUrl}}/api/v1/services/web-development).
+  4. "Admin Update Service" (PATCH {{baseUrl}}/api/v1/services/{{serviceId}}).
+  5. "Admin Delete Service" (DELETE {{baseUrl}}/api/v1/services/{{serviceId}}).
+
+ধাপ ৬: সফটওয়্যার প্রোডাক্টস টেস্ট (Software Products CRUD)
+----------------------------------------------------------
+- "05. Software Products" ফোল্ডারে যান:
+  1. "Get All Public Software Products" (GET {{baseUrl}}/api/v1/software) -> লাইভ SaaS প্রোডাক্টের তালিকা।
+  2. "Get Single Software Product by Slug" (GET {{baseUrl}}/api/v1/software/gympro-saas).
+  3. "Admin Create Software Product" (POST {{baseUrl}}/api/v1/software) -> CloudPOS বা নতুন SaaS অ্যাড করুন।
+  4. "Admin Update Software Product" (PATCH {{baseUrl}}/api/v1/software/{{softwareId}}).
+
+ধাপ ৭: পোর্টফোলিও প্রজেক্টস টেস্ট (Portfolio CRUD)
+-------------------------------------------------
+- "06. Portfolio Projects" ফোল্ডারে যান:
+  1. "Get All Public Portfolio Projects" (GET {{baseUrl}}/api/v1/portfolio).
+  2. "Admin Create Portfolio Project" (POST {{baseUrl}}/api/v1/portfolio).
+  3. "Admin Update Portfolio Project" (PATCH {{baseUrl}}/api/v1/portfolio/{{portfolioId}}).
+
+ধাপ ৮: ক্লায়েন্ট ইনকোয়ারি ও লিড টেস্ট (Inquiries & Leads)
+-----------------------------------------------------------
+- "07. Client Inquiries" ফোল্ডারে যান:
+  1. "Submit Public Client Inquiry" (POST {{baseUrl}}/api/v1/inquiries):
+     - ওয়েবসাইট ভিজিটররা যেভাবে ফর্ম পূরণ করে পাঠায়।
+  2. "Get All Inquiries" (GET {{baseUrl}}/api/v1/inquiries):
+     - অ্যাডমিন/পিএম ড্যাশবোর্ডে প্রাপ্ত সব ইনকোয়ারি দেখুন।
+  3. "Update Inquiry Status" (PATCH {{baseUrl}}/api/v1/inquiries/{{inquiryId}}/status):
+     - স্ট্যাটাস PENDING থেকে CONTACTED বা RESOLVED করুন।
+
+ধাপ ৯: রিভিউ ও টেস্টমোনিয়াল টেস্ট (Testimonials)
+------------------------------------------------
+- "08. Testimonials" ফোল্ডারে যান:
+  1. "Get Published Testimonials" (GET {{baseUrl}}/api/v1/testimonials) -> হোমপেজের রিভিউ।
+  2. "Admin Create Testimonial" (POST {{baseUrl}}/api/v1/testimonials) -> নতুন রিভিউ যোগ করুন।
+
+ধাপ ১০: পেমেন্ট ও বিকাশ গেটওয়ে টেস্ট (Payments & bKash Gateway)
+--------------------------------------------------------------
+- "09. Payments & bKash Gateway" ফোল্ডারে যান:
+  1. "Initiate Payment (bKash / Card)" (POST {{baseUrl}}/api/v1/payments/initiate):
+     - Body: { amount: 15000, serviceTitle: "Starter Launchpad", paymentGateway: "BKASH", ... }
+     - "Send" চাপুন -> রেসপন্সে transactionId ও bkashURL পাবেন।
+     - টেস্ট স্ক্রিপ্ট অটোমেটিক transactionId এনভায়রনমেন্টে সেভ করে রাখবে।
+  2. "Verify Payment by Transaction ID" (POST {{baseUrl}}/api/v1/payments/verify/{{transactionId}}).
+  3. "Get Payment Details by Transaction ID" (GET {{baseUrl}}/api/v1/payments/{{transactionId}}).
+  4. "Admin Get All Payment Transactions" (GET {{baseUrl}}/api/v1/payments/admin/all).
+
+================================================================================
+5. অটোমেটেড টেস্ট রানার (POSTMAN COLLECTION RUNNER)
+================================================================================
+আপনি চাইলে একটি ক্লিকেই সব টেস্ট একসাথে রান করতে পারেন:
+1. বাম পাশের কালেকশন মেনুতে "Provash Dev - Backend API Collection (v1)"-এর নামের পাশে 
+   তিনটি ডট (...) এ ক্লিক করুন।
+2. "Run collection"-এ ক্লিক করুন।
+3. Environment হিসেবে "Provash Dev - Backend Local Environment" নির্বাচন করুন।
+4. "Run Provash Dev - Backend API Collection" নীল বাটনে ক্লিক করুন।
+5. পোস্টম্যান প্রতিটি এন্ডপয়েন্ট পরীক্ষা করে গ্রিন টিক (PASS) দেখাবে।
+
+================================================================================
+6. সাধারণ সমস্যা ও সমাধান (TROUBLESHOOTING)
+================================================================================
+সমস্যা ১: "Error: connect ECONNREFUSED 127.0.0.1:5000"
+সমাধান: ব্যাকএন্ড সার্ভার চালু নেই। টার্মিনালে `bun run dev` চালিয়ে সার্ভার চালু করুন।
+
+সমস্যা ২: "Status 401 Unauthorized"
+সমাধান: আপনার accessToken এক্সপায়ার হয়ে গেছে। "01. Authentication Module" থেকে 
+"Super Admin Login" রিকোয়েস্টে "Send" চাপুন। নতুন টোকেন সাথে সাথে সেভ হয়ে যাবে।
+
+সমস্যা ৩: "Status 403 Forbidden"
+সমাধান: এই এন্ডপয়েন্টের জন্য আপনার রোল অনুমোদিত নয় (যেমন: ক্লায়েন্ট ইউজার অ্যাডমিন 
+এন্ডপয়েন্ট কল করার চেষ্টা করলে)। সুপার অ্যাডমিন হিসেবে লগইন করে পুনরায় চেষ্টা করুন।
+
+সমস্যা ৪: "Prisma Client Initialization / Database Error"
+সমাধান: ব্যাকএন্ডের `.env` ফাইলের `DATABASE_URL` চেক করুন। ইন্টারনেট সংযোগ সক্রিয় আছে 
+কিনা নিশ্চিত করুন কারণ ডাটাবেজ ক্লাউডে (Prisma Postgres) হোস্ট করা।
+
+================================================================================
+সফল টেস্টিংয়ের শুভকামনা! কোনো প্রশ্ন থাকলে জিজ্ঞাসা করতে পারেন।
+================================================================================

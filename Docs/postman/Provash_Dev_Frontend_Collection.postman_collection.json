@@ -1,0 +1,593 @@
+{
+  "info": {
+    "_postman_id": "provash-dev-frontend-collection-v1",
+    "name": "Provash Dev - Frontend Web Routes & Integration Collection",
+    "description": "Postman collection to test Next.js 16 App Router web pages, SSR status 200, dynamic routes, HTML content responses, and frontend-to-backend API integrations.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "frontendUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "backendUrl",
+      "value": "http://localhost:5000/api/v1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01. Public Web Pages (SSR & Static)",
+      "item": [
+        {
+          "name": "Homepage (Agency Landing & Hero)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html,application/xhtml+xml"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Content-Type is text/html', function () {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "About Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/about",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "about"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Services Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/services",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "services"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Portfolio Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/portfolio",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "portfolio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Software Hub Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/software",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "software"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Dynamic Software Product Detail Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/software/gympro-saas",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "software",
+                "gympro-saas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Blog Listing Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/blog",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "blog"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Contact Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/contact",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "contact"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02. Authentication & Auth Pages",
+      "item": [
+        {
+          "name": "Login Page UI",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/login",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register Page UI",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/register",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "register"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03. Role Dashboards (Client & Staff)",
+      "item": [
+        {
+          "name": "Dashboard Home Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/dashboard",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "dashboard"
+              ]
+            }
+          }
+        },
+        {
+          "name": "User / Client Dashboard Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/dashboard/user",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "dashboard",
+                "user"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin Dashboard Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/dashboard/admin",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "dashboard",
+                "admin"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Project Manager Dashboard Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/dashboard/project-manager",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "dashboard",
+                "project-manager"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Super Admin Dashboard Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/dashboard/super-admin",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "dashboard",
+                "super-admin"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04. Payment Checkout & Redirects",
+      "item": [
+        {
+          "name": "Checkout Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/payment/checkout",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "payment",
+                "checkout"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Payment Success Confirmation Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/payment/success?trxId=SANDBOX_DEMO_TRX",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "payment",
+                "success"
+              ],
+              "query": [
+                {
+                  "key": "trxId",
+                  "value": "SANDBOX_DEMO_TRX"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Payment Failed Notification Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/payment/failed?reason=declined",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "payment",
+                "failed"
+              ],
+              "query": [
+                {
+                  "key": "reason",
+                  "value": "declined"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05. Showcase Portfolio Routes",
+      "item": [
+        {
+          "name": "Showcase - All Projects",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/showcase/allprojects",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "showcase",
+                "allprojects"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Showcase - Featured Work",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/showcase/featured-work",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "showcase",
+                "featured-work"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Showcase - Services",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{frontendUrl}}/showcase/services",
+              "host": [
+                "{{frontendUrl}}"
+              ],
+              "path": [
+                "showcase",
+                "services"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06. Full-Stack Integration Verification",
+      "item": [
+        {
+          "name": "Backend Connection Check from Frontend",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{backendUrl}}/services",
+              "host": [
+                "{{backendUrl}}"
+              ],
+              "path": [
+                "services"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Backend API returns 200 to Frontend client', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Direct Software Feed to Frontend",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{backendUrl}}/software",
+              "host": [
+                "{{backendUrl}}"
+              ],
+              "path": [
+                "software"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Testimonials Feed to Frontend",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{backendUrl}}/testimonials",
+              "host": [
+                "{{backendUrl}}"
+              ],
+              "path": [
+                "testimonials"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
