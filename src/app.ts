@@ -16,6 +16,7 @@ import { AdminRoutes } from "./app/module/dashboard/admin/admin.route";
 import { ProjectManagerRoutes } from "./app/module/dashboard/projectManager/projectManager.route";
 import { TestimonialRoutes } from "./app/module/testimonial/testimonial.route";
 import { UserRoutes } from "./app/module/dashboard/user/user.route";
+import { BlogRoutes } from "./app/module/blog/blog.route";
 
 const app: Application = express();
 
@@ -44,6 +45,7 @@ app.use("/api/v1/portfolio", PortfolioRoutes);
 app.use("/api/v1/inquiries", InquiryRoutes);
 app.use("/api/v1/testimonials", TestimonialRoutes);
 app.use("/api/v1/payments", PaymentRoutes);
+app.use("/api/v1/blogs", BlogRoutes);
 
 // health check endpoint
 app.get("/", (_req: Request, res: Response) => {

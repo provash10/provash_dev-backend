@@ -284,6 +284,71 @@ async function main() {
 		}
 	}
 
+	// seed default technical blog articles
+	const initialBlogs = [
+		{
+			title: "Mastering Next.js 16 SSR & Turbopack Performance",
+			slug: "mastering-nextjs-16-ssr-turbopack-performance",
+			category: "Next.js",
+			readTime: "6 min read",
+			description:
+				"Explore how Server-Side Rendering (SSR) in Next.js 16 improves SEO, speeds up initial page load, and delivers blazing-fast web experiences.",
+			tags: ["Next.js", "SSR", "Turbopack", "Performance"],
+			image: "https://via.placeholder.com/600x400/0f172a/38bdf8?text=Next.js+16+SSR",
+			isPublished: true,
+			featured: true,
+			order: 1,
+		},
+		{
+			title: "Building Resilient Axios Interceptors for JWT Auth",
+			slug: "building-resilient-axios-interceptors-for-jwt-auth",
+			category: "Backend",
+			readTime: "5 min read",
+			description:
+				"Learn how to handle automatic token refresh, secure HTTP requests, and global error handling using custom Axios interceptors.",
+			tags: ["Axios", "JWT", "Node.js", "Security"],
+			image: "https://via.placeholder.com/600x400/0f172a/38bdf8?text=Axios+Interceptors",
+			isPublished: true,
+			featured: true,
+			order: 2,
+		},
+		{
+			title: "State Management & Custom React Hooks Architecture",
+			slug: "state-management-custom-react-hooks-architecture",
+			category: "React",
+			readTime: "7 min read",
+			description:
+				"A practical guide to structuring clean React frontend applications with custom hooks, Context API, and modular state isolation.",
+			tags: ["React", "Hooks", "State Management", "Clean Code"],
+			image: "https://via.placeholder.com/600x400/0f172a/38bdf8?text=Custom+React+Hooks",
+			isPublished: true,
+			featured: false,
+			order: 3,
+		},
+		{
+			title: "Designing Scalable MERN Stack Apps from Scratch",
+			slug: "designing-scalable-mern-stack-apps-from-scratch",
+			category: "Performance",
+			readTime: "8 min read",
+			description:
+				"Best practices for organizing MongoDB schemas, Express middleware, RESTful API endpoints, and responsive React component layouts.",
+			tags: ["MERN Stack", "MongoDB", "Express", "Node.js"],
+			image: "https://via.placeholder.com/600x400/0f172a/38bdf8?text=MERN+Architecture",
+			isPublished: true,
+			featured: false,
+			order: 4,
+		},
+	];
+
+	for (const blog of initialBlogs) {
+		const existing = await prisma.blog.findUnique({
+			where: { slug: blog.slug },
+		});
+		if (!existing) {
+			await prisma.blog.create({ data: blog });
+		}
+	}
+
 	// console.log("database seeding routine finished successfully")
 }
 
