@@ -15,6 +15,17 @@ const getAllBlogs = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
+// get all blog categories with counts
+const getCategories = catchAsync(async (_req: Request, res: Response) => {
+	const result = await BlogService.getCategories();
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Blog categories fetched successfully",
+		data: result,
+	});
+});
+
 // get single blog article by slug
 const getBlogBySlug = catchAsync(async (req: Request, res: Response) => {
 	const { slug } = req.params;
@@ -64,6 +75,7 @@ const deleteBlog = catchAsync(async (req: Request, res: Response) => {
 
 export const BlogController = {
 	getAllBlogs,
+	getCategories,
 	getBlogBySlug,
 	createBlog,
 	updateBlog,

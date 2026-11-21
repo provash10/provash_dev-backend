@@ -56,17 +56,79 @@ const getBlogBySlug = async (slug: string) => {
 	return blog;
 };
 
-// create a new blog article
-const createBlog = async (payload: any) => {
-	const existing = await prisma.blog.findUnique({
-		where: { slug: payload.slug },
+// fetch all distinct categories with counts
+const getCategories = async () => {
+	const groups = await prisma.blog.groupBy({
+		by: ["category"],
+		_count: {
+			id: true,
+		},
+		where: {
+			isPublished: true,
+		},
+		orderBy: {
+			category: "asc",
+		},
 	});
 
-	if (existing) {
-		throw new AppError(
-			httpStatus.CONFLICT,
-			"A blog article with this slug already exists",
-		);
+	const total = await prisma.blog.count({
+		where: {
+			isPublished: true,
+		},
+	});
+
+	return {
+		total,
+		categories: groups.map((g) => ({
+			name: g.category,
+			count: g._count.id,
+		})),
+	};
+};
+
+// slugify helper
+const slugify = (text: string) => {
+	return text
+		.toLowerCase()
+		.trim()
+		.replace(/[\s\W-]+/g, "-")
+		.replace(/^-+|-+$/g, "");
+};
+
+// calculate approximate reading time
+const calculateReadTime = (content?: string, description?: string) => {
+	const text = `${content || ""} ${description || ""}`;
+	const words = text.trim().split(/\s+/).filter(Boolean).length;
+	const minutes = Math.max(1, Math.ceil(words / 200));
+	return `${minutes} min read`;
+};
+
+// create a new blog article
+const createBlog = async (payload: any) => {
+	// generate slug if missing
+	let baseSlug = payload.slug ? slugify(payload.slug) : slugify(payload.title);
+	if (!baseSlug) {
+		baseSlug = `post-${Date.now()}`;
+	}
+
+	// ensure unique slug
+	let finalSlug = baseSlug;
+	let counter = 1;
+	while (await prisma.blog.findUnique({ where: { slug: finalSlug } })) {
+		finalSlug = `${baseSlug}-${counter}`;
+		counter++;
+	}
+	payload.slug = finalSlug;
+
+	// estimate read time if not provided
+	if (!payload.readTime) {
+		payload.readTime = calculateReadTime(payload.content, payload.description);
+	}
+
+	// fallback image if missing
+	if (!payload.image) {
+		payload.image =
+			"https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000";
 	}
 
 	return await prisma.blog.create({
@@ -101,6 +163,7 @@ const deleteBlog = async (id: string) => {
 
 export const BlogService = {
 	getAllBlogs,
+	getCategories,
 	getBlogBySlug,
 	createBlog,
 	updateBlog,

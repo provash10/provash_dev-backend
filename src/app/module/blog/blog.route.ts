@@ -7,16 +7,16 @@ import { BlogValidation } from "./blog.validation";
 const router = Router();
 
 // public blog routes
+router.get("/categories", BlogController.getCategories);
 router.get("/", BlogController.getAllBlogs);
 router.get("/:slug", BlogController.getBlogBySlug);
-
-// admin only blog management routes
 router.post(
 	"/",
-	checkAuth("SUPER_ADMIN", "ADMIN"),
 	validateRequest(BlogValidation.createBlogSchema),
 	BlogController.createBlog,
 );
+
+// admin only blog management routes
 
 router.patch(
 	"/:id",
