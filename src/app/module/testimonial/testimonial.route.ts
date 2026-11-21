@@ -6,10 +6,10 @@ import { TestimonialValidation } from "./testimonial.validation";
 
 const router = Router();
 
-// Public: View published reviews
+// public view published reviews
 router.get("/", TestimonialController.getPublishedTestimonials);
 
-// Admin-only management
+// admin only management
 router.get(
 	"/admin/all",
 	checkAuth("SUPER_ADMIN", "ADMIN"),

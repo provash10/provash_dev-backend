@@ -6,11 +6,11 @@ import { PortfolioValidation } from "./portfolio.validation";
 
 const router = Router();
 
-// Public routes
+// public routes
 router.get("/", PortfolioController.getAllProjects);
 router.get("/:slug", PortfolioController.getProjectBySlug);
 
-// Admin-only routes
+// admin only routes
 router.post(
 	"/",
 	checkAuth("SUPER_ADMIN", "ADMIN"),

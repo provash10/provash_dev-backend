@@ -19,7 +19,7 @@ import { UserRoutes } from "./app/module/dashboard/user/user.route";
 
 const app: Application = express();
 
-// CORS configuration
+// cors configuration
 app.use(
 	cors({
 		origin: [config.frontend_url, "http://localhost:3000"],
@@ -27,7 +27,7 @@ app.use(
 	}),
 );
 
-// Body parsers
+// body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -45,7 +45,7 @@ app.use("/api/v1/inquiries", InquiryRoutes);
 app.use("/api/v1/testimonials", TestimonialRoutes);
 app.use("/api/v1/payments", PaymentRoutes);
 
-// Health check endpoint
+// health check endpoint
 app.get("/", (_req: Request, res: Response) => {
 	res.status(httpStatus.OK).json({
 		success: true,
@@ -54,7 +54,7 @@ app.get("/", (_req: Request, res: Response) => {
 	});
 });
 
-// Centralized error handling
+// centralized error handling
 app.use(globalErrorHandler);
 app.use(notFound);
 

@@ -227,8 +227,9 @@ const getAllSoftware = async (query: { category?: string; featured?: string }) =
 
 	let filtered = defaultSoftwareProducts;
 	if (query.category) {
+		const targetCategory = query.category.toLowerCase();
 		filtered = filtered.filter((item) =>
-			item.category.toLowerCase().includes(query.category!.toLowerCase()),
+			item.category.toLowerCase().includes(targetCategory),
 		);
 	}
 	if (query.featured === "true") {

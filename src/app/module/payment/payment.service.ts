@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from "node:crypto";
 import httpStatus from "http-status";
 import config from "../../config";
 import AppError from "../../errors/AppError";
@@ -47,7 +47,7 @@ const initiatePayment = async (
 			);
 
 			const bkashResult = await bkashCreateRes.json();
-			// console.log("bkash create payment response", bkashResult)
+			// console.log("bkash create payment response")
 
 			if (bkashResult?.bkashURL) {
 				bkashPaymentUrl = bkashResult.bkashURL;
@@ -96,7 +96,7 @@ const initiatePayment = async (
 			`,
 		});
 	} catch (_mailErr) {
-		// console.log("client email notification notice", _mailErr)
+		// console.log("client email notification notice")
 	}
 
 	return {
@@ -142,7 +142,7 @@ const handleBkashCallback = async (query: {
 		);
 
 		const executeResult = await executeRes.json();
-		// console.log("bkash payment execute result", executeResult)
+		// console.log("bkash payment execute result")
 
 		if (
 			executeResult?.statusCode === "0000" &&

@@ -25,12 +25,12 @@ const main = async () => {
 
 		// connect to redis cloud client in background
 		redisClient.connect().catch((_redisErr) => {
-			// console.log("redis cloud connection notice", _redisErr)
+			// console.log("redis cloud connection notice")
 		});
 
 		// verify nodemailer smtp configuration in background
 		transporter.verify().catch((_mailErr) => {
-			// console.log("nodemailer smtp verification notice", _mailErr)
+			// console.log("nodemailer smtp verification notice")
 		});
 	} catch (error) {
 		// console.log("failed to start the server", error)
