@@ -289,64 +289,123 @@ async function main() {
 		{
 			title: "Mastering Next.js 16 SSR & Turbopack Performance",
 			slug: "mastering-nextjs-16-ssr-turbopack-performance",
-			category: "Next.js",
+			category: "Technology & IT",
+			subCategory: "Web Development",
 			readTime: "6 min read",
 			description:
 				"Explore how Server-Side Rendering (SSR) in Next.js 16 improves SEO, speeds up initial page load, and delivers blazing-fast web experiences.",
+			content:
+				"Server-Side Rendering in Next.js provides dynamic HTML rendering at request time. Combined with Turbopack, development builds and production outputs achieve ultra-fast bundle compilation and instantaneous hydration across all modern browsers.",
 			tags: ["Next.js", "SSR", "Turbopack", "Performance"],
-			image: "https://via.placeholder.com/600x400/0f172a/38bdf8?text=Next.js+16+SSR",
+			image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000",
 			isPublished: true,
 			featured: true,
 			order: 1,
 		},
 		{
-			title: "Building Resilient Axios Interceptors for JWT Auth",
-			slug: "building-resilient-axios-interceptors-for-jwt-auth",
-			category: "Backend",
-			readTime: "5 min read",
+			title: "The Architecture of Modern Large Language Models",
+			slug: "the-architecture-of-modern-large-language-models",
+			category: "Technology & IT",
+			subCategory: "Artificial Intelligence",
+			readTime: "7 min read",
 			description:
-				"Learn how to handle automatic token refresh, secure HTTP requests, and global error handling using custom Axios interceptors.",
-			tags: ["Axios", "JWT", "Node.js", "Security"],
-			image: "https://via.placeholder.com/600x400/0f172a/38bdf8?text=Axios+Interceptors",
+				"An in-depth look at transformer self-attention mechanisms, tokenization pipelines, and fine-tuning techniques powering generative AI.",
+			content:
+				"Modern LLMs rely on multi-head attention layers that weigh tokens relative to context. Exploring how positional embeddings and causal masking work reveals why transformers scale efficiently.",
+			tags: ["AI", "Transformers", "LLM", "Deep Learning"],
+			image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=1000",
 			isPublished: true,
 			featured: true,
 			order: 2,
 		},
 		{
-			title: "State Management & Custom React Hooks Architecture",
-			slug: "state-management-custom-react-hooks-architecture",
-			category: "React",
-			readTime: "7 min read",
+			title: "James Webb Space Telescope Discoveries in Deep Space",
+			slug: "james-webb-space-telescope-discoveries-in-deep-space",
+			category: "Science",
+			subCategory: "Space & Astronomy",
+			readTime: "5 min read",
 			description:
-				"A practical guide to structuring clean React frontend applications with custom hooks, Context API, and modular state isolation.",
-			tags: ["React", "Hooks", "State Management", "Clean Code"],
-			image: "https://via.placeholder.com/600x400/0f172a/38bdf8?text=Custom+React+Hooks",
+				"How infrared observations are rewriting our understanding of early galaxy formation, exoplanet atmospheres, and stellar nurseries.",
+			content:
+				"JWST operates in infrared wavelengths, allowing it to penetrate cosmic dust veils. Spectroscopic analysis of exoplanet atmospheres has revealed water vapor, carbon dioxide, and clouds on worlds light-years away.",
+			tags: ["Astronomy", "JWST", "Cosmology", "Space"],
+			image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1000",
 			isPublished: true,
-			featured: false,
+			featured: true,
 			order: 3,
 		},
 		{
-			title: "Designing Scalable MERN Stack Apps from Scratch",
-			slug: "designing-scalable-mern-stack-apps-from-scratch",
-			category: "Performance",
-			readTime: "8 min read",
+			title: "Quantum Entanglement and Information Theory",
+			slug: "quantum-entanglement-and-information-theory",
+			category: "Science",
+			subCategory: "Physics & Quantum",
+			readTime: "6 min read",
 			description:
-				"Best practices for organizing MongoDB schemas, Express middleware, RESTful API endpoints, and responsive React component layouts.",
-			tags: ["MERN Stack", "MongoDB", "Express", "Node.js"],
-			image: "https://via.placeholder.com/600x400/0f172a/38bdf8?text=MERN+Architecture",
+				"Understanding non-locality, Bell test experiments, and how quantum states enable quantum key distribution and quantum computing.",
+			content:
+				"Quantum entanglement demonstrates correlations between separated particles that defy classical limits. When applied to cryptography, entangled pairs guarantee eavesdropping detection through fundamental laws of physics.",
+			tags: ["Quantum", "Physics", "Cryptography", "Computing"],
+			image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=1000",
 			isPublished: true,
 			featured: false,
 			order: 4,
 		},
+		{
+			title: "Global Supply Chains and Geopolitical Realignment",
+			slug: "global-supply-chains-and-geopolitical-realignment",
+			category: "Politics",
+			subCategory: "Geopolitics & Global Affairs",
+			readTime: "6 min read",
+			description:
+				"How semiconductor trade, critical mineral corridors, and regional alliances are reshaping international trade politics.",
+			content:
+				"Nations are moving from just-in-time logistics to friend-shoring and sovereign manufacturing. Trade corridors across Eurasia and the Indo-Pacific reflect the intersection of defense policy and commercial strategy.",
+			tags: ["Geopolitics", "Trade", "Diplomacy", "Supply Chain"],
+			image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=1000",
+			isPublished: true,
+			featured: false,
+			order: 5,
+		},
+		{
+			title: "The Rise of FinTech and Instant Cross-Border Payments",
+			slug: "the-rise-of-fintech-and-instant-cross-border-payments",
+			category: "Finance",
+			subCategory: "FinTech",
+			readTime: "5 min read",
+			description:
+				"How open banking APIs, ISO 20022 messaging, and distributed ledgers are cutting remittance costs and settlement latency worldwide.",
+			content:
+				"Cross-border payments historically suffered from correspondent banking friction. Modern FinTech platforms leverage real-time rail connections and automated currency matching to deliver instant settlement at a fraction of legacy fees.",
+			tags: ["FinTech", "Banking", "Payments", "Remittance"],
+			image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=1000",
+			isPublished: true,
+			featured: true,
+			order: 6,
+		},
+		{
+			title: "Index Funds vs Active Stock Picking for Wealth Building",
+			slug: "index-funds-vs-active-stock-picking-for-wealth-building",
+			category: "Finance",
+			subCategory: "Stock Market & Investing",
+			readTime: "7 min read",
+			description:
+				"Analyzing long-term market returns, expense ratios, compounding gains, and why passive indexing beats most active funds.",
+			content:
+				"Decades of empirical data demonstrate that over eighty percent of actively managed funds underperform low-cost index benchmarks after fees. Dollar-cost averaging into broad market indices remains the most reliable strategy for compounding wealth.",
+			tags: ["Investing", "Finance", "Wealth", "Stock Market"],
+			image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1000",
+			isPublished: true,
+			featured: false,
+			order: 7,
+		},
 	];
 
 	for (const blog of initialBlogs) {
-		const existing = await prisma.blog.findUnique({
+		await prisma.blog.upsert({
 			where: { slug: blog.slug },
+			update: blog,
+			create: blog,
 		});
-		if (!existing) {
-			await prisma.blog.create({ data: blog });
-		}
 	}
 
 	// console.log("database seeding routine finished successfully")

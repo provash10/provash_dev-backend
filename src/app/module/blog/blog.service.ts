@@ -2,9 +2,56 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
 
+// canonical category and subcategory taxonomy definition
+const defaultTaxonomy = [
+	{
+		name: "Technology & IT",
+		subcategories: [
+			"Web Development",
+			"Artificial Intelligence",
+			"Cybersecurity",
+			"Cloud & DevOps",
+			"Mobile Apps",
+			"Software Architecture",
+		],
+	},
+	{
+		name: "Science",
+		subcategories: [
+			"Space & Astronomy",
+			"Physics & Quantum",
+			"Biotechnology",
+			"Climate & Environment",
+			"Neuroscience",
+		],
+	},
+	{
+		name: "Politics",
+		subcategories: [
+			"National Politics",
+			"Geopolitics & Global Affairs",
+			"Public Policy",
+			"Political Economy",
+			"Law & Human Rights",
+		],
+	},
+	{
+		name: "Finance",
+		subcategories: [
+			"Personal Finance",
+			"FinTech",
+			"Stock Market & Investing",
+			"Cryptocurrency & Web3",
+			"Macroeconomics & Banking",
+			"Startup Funding",
+		],
+	},
+];
+
 // fetch all blogs with filtering and search
 const getAllBlogs = async (query: {
 	category?: string;
+	subCategory?: string;
 	search?: string;
 	featured?: string;
 	isPublished?: string;
@@ -21,6 +68,13 @@ const getAllBlogs = async (query: {
 	if (query.category && query.category.toLowerCase() !== "all") {
 		where.category = {
 			equals: query.category,
+			mode: "insensitive",
+		};
+	}
+
+	if (query.subCategory && query.subCategory.toLowerCase() !== "all") {
+		where.subCategory = {
+			equals: query.subCategory,
 			mode: "insensitive",
 		};
 	}
@@ -56,33 +110,61 @@ const getBlogBySlug = async (slug: string) => {
 	return blog;
 };
 
-// fetch all distinct categories with counts
+// fetch all distinct categories and subcategories with counts
 const getCategories = async () => {
-	const groups = await prisma.blog.groupBy({
-		by: ["category"],
-		_count: {
-			id: true,
-		},
-		where: {
-			isPublished: true,
-		},
-		orderBy: {
-			category: "asc",
-		},
+	const allBlogs = await prisma.blog.findMany({
+		where: { isPublished: true },
+		select: { category: true, subCategory: true },
 	});
 
-	const total = await prisma.blog.count({
-		where: {
-			isPublished: true,
-		},
-	});
+	// build category map with subcategories and counts
+	const categoryMap: Record<
+		string,
+		{ count: number; subcategories: Record<string, number> }
+	> = {};
+
+	// initialize with default taxonomy
+	for (const cat of defaultTaxonomy) {
+		categoryMap[cat.name] = {
+			count: 0,
+			subcategories: {},
+		};
+		for (const sub of cat.subcategories) {
+			categoryMap[cat.name].subcategories[sub] = 0;
+		}
+	}
+
+	// populate with live data counts
+	for (const blog of allBlogs) {
+		const catName = blog.category || "Technology & IT";
+		const subName = blog.subCategory || "General";
+
+		if (!categoryMap[catName]) {
+			categoryMap[catName] = {
+				count: 0,
+				subcategories: {},
+			};
+		}
+		categoryMap[catName].count++;
+
+		categoryMap[catName].subcategories[subName] =
+			(categoryMap[catName].subcategories[subName] || 0) + 1;
+	}
+
+	const categories = Object.keys(categoryMap).map((name) => ({
+		name,
+		count: categoryMap[name].count,
+		subcategories: Object.keys(categoryMap[name].subcategories).map(
+			(subName) => ({
+				name: subName,
+				count: categoryMap[name].subcategories[subName],
+			}),
+		),
+	}));
 
 	return {
-		total,
-		categories: groups.map((g) => ({
-			name: g.category,
-			count: g._count.id,
-		})),
+		total: allBlogs.length,
+		categories,
 	};
 };
 
@@ -123,6 +205,11 @@ const createBlog = async (payload: any) => {
 	// estimate read time if not provided
 	if (!payload.readTime) {
 		payload.readTime = calculateReadTime(payload.content, payload.description);
+	}
+
+	// fallback subcategory if missing
+	if (!payload.subCategory) {
+		payload.subCategory = "General";
 	}
 
 	// fallback image if missing

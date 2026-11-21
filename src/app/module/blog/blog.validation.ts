@@ -5,6 +5,7 @@ const createBlogSchema = z.object({
 	title: z.string().min(3, "Title must be at least 3 characters"),
 	slug: z.string().optional(),
 	category: z.string().min(2, "Category is required"),
+	subCategory: z.string().optional().default("General"),
 	readTime: z.string().optional(),
 	description: z.string().min(10, "Description must be at least 10 characters"),
 	content: z.string().optional().or(z.literal("")),

@@ -194,6 +194,7 @@ model Blog {
   title       String
   slug        String   @unique
   category    String
+  subCategory String?  @default("General")
   readTime    String?  @default("5 min read")
   description String   @db.Text
   content     String?  @db.Text
